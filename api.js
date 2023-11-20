@@ -1,8 +1,11 @@
+const axios = require('axios');
 const express = require('express');
 const PORT = process.env.PORT || 3000;
 
 const app = express ();
 app.use(express.json());
+
+const createalarmurl = "api.amazonalexa.com/v1/alerts/alarms";
 
 app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);
@@ -23,9 +26,29 @@ app.post("/alarm", (request, response) => {
         let alarm_array = data.ISOTimes;
 
         //Alexa API calls
+        
+        // let response_string = "Alarms have been created for the following times:";
+        // let num_of_alarms = alarm_array.length;
 
-        let response_string = "Alarms have been created for the following times:";
-        let num_of_alarms = alarm_array.length;
+        // for (let i in alarm_array) {
+        //     axios.post(createalarmurl, {
+        //         "endpointID" : "@self",
+        //         "trigger" : {
+        //             "scheduledTime" : alarm_array[i]
+        //         },
+        //         "assets" : [
+        //             {
+        //                 "type" : "TONE",
+        //                 "assetID" : "123ABC"
+        //             }
+        //         ]
+        //     }, {
+        //         headers: {
+        //             'Authorization' : '<< LWA_ACCESS_TOKEN  >>',
+        //             'Content-Type' : 'application/json'
+        //         }
+        //     })
+        // }
 
         for (let i in alarm_array) {
             if (i == num_of_alarms - 1){
