@@ -33,3 +33,5 @@ axios.post(**API URL**, {
 ## Receiving Data
 
 A status message will be returned in the response body of the call to show success of error.
+
+<img src="./img.jpg" alt="UML Diagram" />
