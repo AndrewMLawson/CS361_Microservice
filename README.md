@@ -13,7 +13,7 @@ Be sure to:
     2.  Include the relevant JSON data in the request body:
         - The API will be searching for a key called "ISOTimes", this is the only required data.
 
-## Example
+### Example
 
 If you are using the Axios package to make API calls, the following could be used:
 
@@ -29,3 +29,7 @@ axios.post(**API URL**, {
              })
 ```
 ***Please note: All times must conform to the ISO 8601 standard.
+
+## Receiving Data
+
+A status message will be returned in the response body of the call to show success of error.
