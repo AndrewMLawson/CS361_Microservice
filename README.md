@@ -33,3 +33,5 @@ axios.post(**API URL**, {
 ## Receiving Data
 
 A status message will be returned in the response body of the call to show success of error.
+
+![image](https://github.com/AndrewMLawson/CS361_Microservice/assets/55327691/e0adb340-b500-43c6-8a18-06e69d632b14)
