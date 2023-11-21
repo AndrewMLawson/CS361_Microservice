@@ -21,14 +21,15 @@ app.get("/status", (request, response) => {
 
 app.post("/alarm", (request, response) => {
     data = request.body;
+    console.log(data);
 
     if (data.hasOwnProperty('ISOTimes')){
         let alarm_array = data.ISOTimes;
 
         //Alexa API calls
         
-        // let response_string = "Alarms have been created for the following times:";
-        // let num_of_alarms = alarm_array.length;
+        let response_string = "Alarms have been created for the following times:";
+        let num_of_alarms = alarm_array.length;
 
         // for (let i in alarm_array) {
         //     axios.post(createalarmurl, {
@@ -62,6 +63,6 @@ app.post("/alarm", (request, response) => {
 
 
     } else {
-        response.send("ISOTimes not found! Please try sending data with ISOTimes key and values");
+        response.send("ISOTimes not found! Please try sending data with ISOTimes key and values in ISO 8601 format.");
     }
 });
