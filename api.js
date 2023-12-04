@@ -1,11 +1,12 @@
 const axios = require('axios');
 const express = require('express');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const app = express ();
 app.use(express.json());
 
-const createalarmurl = "api.amazonalexa.com/v1/alerts/alarms";
+const createalarmurl = "https://mandrillapp.com/api/1.0/messages/send";
+const getalarms = "https://mandrillapp.com/api/1.0/messages/list-scheduled";
 
 app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);
@@ -23,46 +24,61 @@ app.post("/alarm", (request, response) => {
     data = request.body;
     console.log(data);
 
-    if (data.hasOwnProperty('ISOTimes')){
-        let alarm_array = data.ISOTimes;
+    if (data.hasOwnProperty('dateArray')){
+        let alarm_array = data.dateArray;
 
-        //Alexa API calls
-        
-        let response_string = "Alarms have been created for the following times:";
-        let num_of_alarms = alarm_array.length;
-
-        // for (let i in alarm_array) {
-        //     axios.post(createalarmurl, {
-        //         "endpointID" : "@self",
-        //         "trigger" : {
-        //             "scheduledTime" : alarm_array[i]
-        //         },
-        //         "assets" : [
-        //             {
-        //                 "type" : "TONE",
-        //                 "assetID" : "123ABC"
-        //             }
-        //         ]
-        //     }, {
-        //         headers: {
-        //             'Authorization' : '<< LWA_ACCESS_TOKEN  >>',
-        //             'Content-Type' : 'application/json'
-        //         }
-        //     })
-        // }
+        let reminderText = data.reminderText;
+        let userEmail = data.userEmail;
 
         for (let i in alarm_array) {
-            if (i == num_of_alarms - 1){
-                response_string = response_string + " and " + alarm_array[i] + ". ";
-            } else {
-                response_string = response_string + alarm_array[i] + ", ";
-            }
+            reminder_num = i + 1;
+            axios.post(createalarmurl, {
+                "key": "md-I2dKA6M8tCfJHvyuDLeHlw",
+                "message": {
+                    "from_email": "admin@trswebservices.net",
+                    "subject": `Reminder ${reminder_num}`,
+                    "text": `You have set a reminder for this time with the following message: ${reminderText}`,
+                    "to": [
+                        {
+                            "email": userEmail,
+                            "type": "to"
+                        }
+                    ]
+                },
+                "send_at": alarm_array[i]
+            }, {
+                headers: {
+                    'Content-Type' : 'application/json'
+                }
+            })
         };
 
-        response.send(response_string);
+        // let alarms;
+
+        // axios.post(getalarms, {
+        //     "key": "md-I2dKA6M8tCfJHvyuDLeHlw"
+        // }, {
+        //     headers: {
+        //         'Content-Type' : 'application/json'
+        //     }
+        // })
+        // .then(function (response){
+        //     alarms = response.data;
+        // });
+
+        // for (let i in alarm_array) {
+        //     if (i == num_of_alarms - 1){
+        //         response_string = response_string + " and " + alarm_array[i] + ". ";
+        //     } else {
+        //         response_string = response_string + alarm_array[i] + ", ";
+        //     }
+        // };
+
+        // response.send(alarms);
+        response.send("It works!");
 
 
     } else {
         response.send("ISOTimes not found! Please try sending data with ISOTimes key and values in ISO 8601 format.");
-    }
+    };
 });
