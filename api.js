@@ -65,17 +65,23 @@ app.post("/alarm", (request, response) => {
         // .then(function (response){
         //     alarms = response.data;
         // });
+        let response_string = "Alarm(s) have been created for the following time(s):";
+        let num_of_alarms = alarm_array.length;
 
-        // for (let i in alarm_array) {
-        //     if (i == num_of_alarms - 1){
-        //         response_string = response_string + " and " + alarm_array[i] + ". ";
-        //     } else {
-        //         response_string = response_string + alarm_array[i] + ", ";
-        //     }
-        // };
+        for (let i in alarm_array) {
+            if(num_of_alarms == 1){
+                response_string = response_string + " " + alarm_array[i] + ".";
+                break;
+            }
+            else if (i == num_of_alarms - 1){
+                response_string = response_string + " and " + alarm_array[i] + ". ";
+            } else {
+                response_string = response_string + alarm_array[i] + ", ";
+            }
+        };
 
         // response.send(alarms);
-        response.send("It works!");
+        response.send(response_string);
 
 
     } else {
